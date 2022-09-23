@@ -9,8 +9,7 @@
     <title>{{ $title }}</title>
 </head>
 <body>
-<h1>{{ $title }}</h1>
-
+<h1 class="bg-dark text-center text-white">{{ $title }}</h1>
 {{$slot}}
 </body>
 </html>
