@@ -19,3 +19,7 @@ Route::get('/', function () {
 
 Route::get('/series', [\App\Http\Controllers\SeriesController::class, 'index']);
 Route::get('/series/criar', [\App\Http\Controllers\SeriesController::class, 'create']);
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
