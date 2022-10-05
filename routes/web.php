@@ -19,7 +19,10 @@ Route::get('/', function () {
 
 Route::get('/series', [\App\Http\Controllers\SeriesController::class, 'index']);
 Route::get('/series/criar', [\App\Http\Controllers\SeriesController::class, 'create']);
+Route::post('/series/salvar', [App\Http\Controllers\SeriesController::class, 'store']);
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
