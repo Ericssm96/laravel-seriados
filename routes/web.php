@@ -18,7 +18,9 @@ Route::get('/', function () {
     return redirect('/series');
 });
 
-Route::resource('/series', SeriesController::class);
+Route::resource('/series', SeriesController::class)->only(['index', 'create', 'store']);
+
+Route::post('/series/destroy', SeriesController::class);
 
 /*Route::controller(SeriesController::class)->group(function() {
     Route::get('/series', 'index')->name('series.index');
@@ -27,10 +29,5 @@ Route::resource('/series', SeriesController::class);
 });
 foi possível substituir pelo Route::resource, pois não usamos mais o link no resto do nosso projeto (tanto nos redirecionamentos, quanto na action do form, etc), ao invés disso
 usamos o nome do link, que nesse exemplo especificamos, mas já é fornecido automaticamente pelo método "resource"*/
-
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
