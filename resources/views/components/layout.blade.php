@@ -10,6 +10,6 @@
 </head>
 <body>
 <h1 class="bg-dark text-center text-white">{{ $title }}</h1>
-{{$slot}}
+<div class="container"><div class="col-12 align-self-center">{{$slot}}</div></div>
 </body>
 </html>

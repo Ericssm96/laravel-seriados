@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Serie;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\DB;
 
 class SeriesController extends Controller
@@ -36,5 +39,12 @@ class SeriesController extends Controller
         //return redirect(route('series.index'));
         //return redirect()->route('series.index');
         return to_route('series.index'); // as 3 opções dão na mesma
+    }
+
+    public function destroy(Request $request): RedirectResponse
+    {
+        Serie::destroy($request->series);
+
+        return to_route('series.index');
     }
 }
