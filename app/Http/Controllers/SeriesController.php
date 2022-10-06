@@ -37,19 +37,20 @@ class SeriesController extends Controller
         // $serie->save();
         // tudo isso pode ser feito de forma resumida:
 
-        Serie::create($request->all());
-        $request->session()->flash('mensagem.sucesso', 'Série adicionada com sucesso.');
+        $serie = Serie::create($request->all());
+        $request->session()->flash('mensagem.sucesso', "Série \"$serie->nome\" adicionada com sucesso.");
 
         //return redirect(route('series.index'));
         //return redirect()->route('series.index');
         return to_route('series.index'); // as 3 opções dão na mesma
     }
 
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Serie $series ,Request $request): RedirectResponse
     {
-        Serie::destroy($request->series);
+        // Para que o modo de acesso ao banco de dados simplificado funcione, precisamos que o parâmetro que representa a entidade (nesse caso, "series") tenha o mesmo nome do query param que estamos acessar.
+        $series->delete();
         // $request->session()->put('mensagem.sucesso', 'Série removida com sucesso!'); Caso eu use essa opção, tenho que usar o método "forget" da session onde ela a mensagem é usada
-        $request->session()->flash('mensagem.sucesso', 'Série removida com sucesso!');
+        $request->session()->flash('mensagem.sucesso', "Série $series->nome removida com sucesso!");
 
         return to_route('series.index');
     }
