@@ -33,6 +33,8 @@ class SeriesController extends Controller
 
         Serie::create($request->all());
 
-        return redirect('/series');
+        //return redirect(route('series.index'));
+        //return redirect()->route('series.index');
+        return to_route('series.index'); // as 3 opções dão na mesma
     }
 }
