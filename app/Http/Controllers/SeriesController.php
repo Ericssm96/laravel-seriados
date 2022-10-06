@@ -38,20 +38,20 @@ class SeriesController extends Controller
         // tudo isso pode ser feito de forma resumida:
 
         $serie = Serie::create($request->all());
-        $request->session()->flash('mensagem.sucesso', "Série \"$serie->nome\" adicionada com sucesso.");
+        //$request->session()->flash('mensagem.sucesso', "Série \"$serie->nome\" adicionada com sucesso.");
 
         //return redirect(route('series.index'));
         //return redirect()->route('series.index');
-        return to_route('series.index'); // as 3 opções dão na mesma
+        return to_route('series.index')->with('mensagem.sucesso', "Série \"$serie->nome\" adicionada com sucesso."); // as 3 opções dão na mesma
     }
 
-    public function destroy(Serie $series ,Request $request): RedirectResponse
+    public function destroy(Serie $series): RedirectResponse
     {
         // Para que o modo de acesso ao banco de dados simplificado funcione, precisamos que o parâmetro que representa a entidade (nesse caso, "series") tenha o mesmo nome do query param que estamos acessar.
         $series->delete();
         // $request->session()->put('mensagem.sucesso', 'Série removida com sucesso!'); Caso eu use essa opção, tenho que usar o método "forget" da session onde ela a mensagem é usada
-        $request->session()->flash('mensagem.sucesso', "Série $series->nome removida com sucesso!");
+        // $request->session()->flash('mensagem.sucesso', "Série $series->nome removida com sucesso!"); trocada pela opção de inserir uma flash message direto no redirecionamento com o método "with" da rota.
 
-        return to_route('series.index');
+        return to_route('series.index')->with('mensagem.sucesso', "Série $series->nome removida com sucesso!");
     }
 }
