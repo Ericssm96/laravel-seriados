@@ -8,14 +8,17 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\DB;
+use MongoDB\Driver\Session;
 
 class SeriesController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $series = Serie::query()->orderBy('nome', 'desc')->get();
+        $mensagemSucesso = $request->session()->get('mensagem.sucesso');
+        // $request->session()->forget('mensagem.sucesso'); não é mais necessário pois foi usado o método "flash" da session ao invés do "put"
 
-        return view('series.index')->with('series', $series);
+        return view('series.index')->with('series', $series)->with('mensagemSucesso', $mensagemSucesso);
     }
 
     public function create()
@@ -35,6 +38,7 @@ class SeriesController extends Controller
         // tudo isso pode ser feito de forma resumida:
 
         Serie::create($request->all());
+        $request->session()->flash('mensagem.sucesso', 'Série adicionada com sucesso.');
 
         //return redirect(route('series.index'));
         //return redirect()->route('series.index');
@@ -44,6 +48,8 @@ class SeriesController extends Controller
     public function destroy(Request $request): RedirectResponse
     {
         Serie::destroy($request->series);
+        // $request->session()->put('mensagem.sucesso', 'Série removida com sucesso!'); Caso eu use essa opção, tenho que usar o método "forget" da session onde ela a mensagem é usada
+        $request->session()->flash('mensagem.sucesso', 'Série removida com sucesso!');
 
         return to_route('series.index');
     }
