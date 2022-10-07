@@ -28,6 +28,9 @@ class SeriesController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'nome' => ['required', 'min:2'] // da na mesma que 'nome' => 'required|min:2'
+        ]);
         // $nomeSerie = $request->input('nome');
         // dá na mesma que a linha abaixo
         // $nomeSerie = $request->nome;
@@ -38,7 +41,7 @@ class SeriesController extends Controller
         // tudo isso pode ser feito de forma resumida:
 
         $serie = Serie::create($request->all());
-        //$request->session()->flash('mensagem.sucesso', "Série \"$serie->nome\" adicionada com sucesso.");
+        //$request->session()->flash('mensagem.sucesso', "Série \"$serie->nome\" adicionada com sucesso."); trocada pela opção de inserir uma flash message direto no redirecionamento com o método "with" da rota.
 
         //return redirect(route('series.index'));
         //return redirect()->route('series.index');
