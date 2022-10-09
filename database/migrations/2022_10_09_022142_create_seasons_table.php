@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('seasons', function (Blueprint $table) {
             $table->id();
-            $table->unsignedTinyInteger('numero');
+            $table->unsignedTinyInteger('number');
             /*$table->unsignedBigInteger('series_id');
-            $table->foreign('series_id')->references('id')->on('series');*/
-            $table->foreignId('series_id')->constrained(); // faz o mesmo que as duas linhas acima
+            $table->foreign('series_id')->references('id')->on('series')->onDelete('cascade');*/
+            $table->foreignId('series_id')->constrained()->onDelete('cascade'); // faz o mesmo que as duas linhas acima
             $table->timestamps();
         });
     }

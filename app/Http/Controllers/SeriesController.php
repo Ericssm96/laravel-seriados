@@ -3,19 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SeriesFormRequest;
-use App\Models\Serie;
+use App\Models\Series;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\DB;
-use MongoDB\Driver\Session;
 
 class SeriesController extends Controller
 {
     public function index(Request $request)
     {
-        $series = Serie::all();
+        $series = Series::all();
         $mensagemSucesso = $request->session()->get('mensagem.sucesso');
         // $request->session()->forget('mensagem.sucesso'); não é mais necessário pois foi usado o método "flash" da session ao invés do "put"
 
@@ -46,7 +45,7 @@ class SeriesController extends Controller
         // $serie->save();
         // tudo isso pode ser feito de forma resumida:
 
-        $serie = Serie::create($request->all());
+        $serie = Series::create($request->all());
         //$request->session()->flash('mensagem.sucesso', "Série \"$serie->nome\" adicionada com sucesso."); trocada pela opção de inserir uma flash message direto no redirecionamento com o método "with" da rota.
 
         //return redirect(route('series.index'));
@@ -54,7 +53,7 @@ class SeriesController extends Controller
         return to_route('series.index')->with('mensagem.sucesso', "Série \"$serie->nome\" adicionada com sucesso."); // as 3 opções dão na mesma
     }
 
-    public function destroy(Serie $series): RedirectResponse
+    public function destroy(Series $series): RedirectResponse
     {
         // Para que o modo de acesso ao banco de dados simplificado funcione, precisamos que o parâmetro que representa a entidade (nesse caso, "series") tenha o mesmo nome do query param que estamos acessar.
         // Nesse caso o nome do query param já é dado automaticamente pelo laravel, pois ao usarmos o método "resource" nas rotas, o laravel decide a estrutura da rota baseada no padrão citado aqui: https://laravel.com/docs/9.x/controllers#restful-nested-resources
@@ -66,13 +65,12 @@ class SeriesController extends Controller
         return to_route('series.index')->with('mensagem.sucesso', "Série $series->nome removida com sucesso!");
     }
 
-    public function edit(Serie $series) // mesmo caso do méto
+    public function edit(Series $series) // mesmo caso do méto
     {
-        dd($series->temporada);
         return view('series.edit')->with('serie', $series);
     }
 
-    public function update(Serie $series, SeriesFormRequest $request)
+    public function update(Series $series, SeriesFormRequest $request)
     {
         // $series->nome = $request->nome;
         $series->fill($request->all()); // Dessa forma estamos fazendo mass assignment e inserindo todas as propriedades que vierem como parâmetro da request nas colunas do banco de dados de mesmo nome

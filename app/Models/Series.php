@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
 
-class Serie extends Model
+class Series extends Model
 {
     use HasFactory;
 
@@ -14,9 +14,9 @@ class Serie extends Model
     protected $fillable = ['nome']; // Dessa forma, quando fizermos a criação de uma linha por meio do método estático "create", apenas as colunas que tiverem especificadas no array serão preenchidas com as informações.
 
     // \/ Essa é a forma que é criada uma relação entre uma tabela e outra usando o Eloquent ORM. Nesse caso usamos o nome
-    // "temporada" pois é assim que desejamos chamar a relação entre a série e suas temporadas (esse poderia ser qualquer
+    // "seasons" pois é assim que desejamos chamar a relação entre a série e suas temporadas (esse poderia ser qualquer
     // outro nome.
-    public function temporada()
+    public function seasons()
     {
         return $this->hasMany(Season::class, 'series_id', 'id'); // dessa forma explicitamos que o Eloquent deve relacionar
         // essa tabela com a tabela seasons fazendo com que a chave estrangeira da tabela seasons tenha o nome de "series_id" e aponte para nossa coluna "id"
