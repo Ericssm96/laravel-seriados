@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder;
 
 class Serie extends Model
 {
@@ -21,6 +22,13 @@ class Serie extends Model
         // essa tabela com a tabela seasons fazendo com que a chave estrangeira da tabela seasons tenha o nome de "series_id" e aponte para nossa coluna "id"
         // nessa tabela (Serie). Apesar de fazermos isso, não é necessário, pois o Eloquent já relacionará automaticamente por via de nossa primary key nessa tabela
         // que por padrão se chama id.
+    }
+
+    public static function booted()
+    {
+        self::addGlobalScope('ordered', function(Builder $queryBuilder){
+           $queryBuilder->orderBy('nome');
+        });
     }
 
 }

@@ -15,7 +15,7 @@ class SeriesController extends Controller
 {
     public function index(Request $request)
     {
-        $series = Serie::query()->orderBy('nome', 'desc')->get();
+        $series = Serie::all();
         $mensagemSucesso = $request->session()->get('mensagem.sucesso');
         // $request->session()->forget('mensagem.sucesso'); não é mais necessário pois foi usado o método "flash" da session ao invés do "put"
 
