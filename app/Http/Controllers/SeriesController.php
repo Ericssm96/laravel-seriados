@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SeriesFormRequest;
 use App\Models\Serie;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
@@ -26,11 +27,16 @@ class SeriesController extends Controller
         return view('series.create');
     }
 
-    public function store(Request $request)
+    public function store(SeriesFormRequest $request)
     {
-        $request->validate([
-            'nome' => ['required', 'min:2'] // da na mesma que 'nome' => 'required|min:2'
+        /*$request->validate([
+            'nome' => ['required', 'min:2']  da na mesma que 'nome' => 'required|min:2'
         ]);
+        /\ foi descartado pois como temos 2 tipos de requisição de entrada no nosso formulário (criar e editar série)
+        é mais recomendado colocar a regra de entrada num lugar que funcione para ambas as situações, e por isso extendemos
+        a classe de Request do Laravel criando a nossa própria request para fazer a regra de entrada já nela, eliminando
+        a necessidad de fazer a validação da regra em todo método que vá processar uma requisição do tipo "post" ou "put"
+        */
         // $nomeSerie = $request->input('nome');
         // dá na mesma que a linha abaixo
         // $nomeSerie = $request->nome;
@@ -65,12 +71,19 @@ class SeriesController extends Controller
         return view('series.edit')->with('serie', $series);
     }
 
-    public function update(Serie $series, Request $request)
+    public function update(Serie $series, SeriesFormRequest $request)
     {
         // $series->nome = $request->nome;
         $series->fill($request->all()); // Dessa forma estamos fazendo mass assignment e inserindo todas as propriedades que vierem como parâmetro da request nas colunas do banco de dados de mesmo nome
         $series->save();
 
         return to_route('series.index')->with('mensagem.sucesso', "Série \"$series->nome\" editada com sucesso!");
+    }
+
+    public function messages()
+    {
+        return [
+            'nome.required' => 'O campo nome é obrigatório'
+        ];
     }
 }
