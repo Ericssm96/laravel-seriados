@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SeriesFormRequest;
+use App\Models\Season;
 use App\Models\Series;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
@@ -46,7 +47,21 @@ class SeriesController extends Controller
         // tudo isso pode ser feito de forma resumida:
 
         $serie = Series::create($request->all());
-        //$request->session()->flash('mensagem.sucesso', "Série \"$serie->nome\" adicionada com sucesso."); trocada pela opção de inserir uma flash message direto no redirecionamento com o método "with" da rota.
+        //$request->session()->flash('mensagem.sucesso', "Série \"$serie->nome\" adicionada com sucesso.");
+        // trocada pela opção de inserir uma flash message direto no redirecionamento com o método "with" da rota.
+
+        for ($i = 1; $i < $request->seasonQty; $i++){
+            /** @var Season $season */
+            $season = $serie->seasons()->create([
+                'number' => $i,
+            ]);
+
+            for ($j = 1; $j < $request->episodesPerSeason; $j++){
+                $season->episodes()->create([
+                    'number' => $j,
+                ]);
+            }
+        }
 
         //return redirect(route('series.index'));
         //return redirect()->route('series.index');
