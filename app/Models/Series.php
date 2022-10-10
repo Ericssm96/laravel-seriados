@@ -18,7 +18,8 @@ class Series extends Model
     // outro nome.
     public function seasons()
     {
-        return $this->hasMany(Season::class, 'series_id', 'id'); // dessa forma explicitamos que o Eloquent deve relacionar
+        return $this->hasMany(Season::class, 'series_id', 'id');
+        // dessa forma explicitamos que o Eloquent deve relacionar
         // essa tabela com a tabela seasons fazendo com que a chave estrangeira da tabela seasons tenha o nome de "series_id" e aponte para nossa coluna "id"
         // nessa tabela (Serie). Apesar de fazermos isso, não é necessário, pois o Eloquent já relacionará automaticamente por via de nossa primary key nessa tabela
         // que por padrão se chama id.
